@@ -6,7 +6,7 @@ variable "aws_access_key" {}
 variable "aws_secret_key" {}
 
 variable "bucket_name" {
-  default = "red30-tfstate"
+  default = "red30-tfstates"
 }
 
 # //////////////////////////////
@@ -21,8 +21,8 @@ provider "aws" {
 # //////////////////////////////
 # TERRAFORM USER
 # //////////////////////////////
-data "aws_iam_user" "terraform" {
-  user_name = "terraform"
+data "aws_iam_user" "terraform-user" {
+  user_name = "terraform-user"
 }
 
 # //////////////////////////////
@@ -46,7 +46,7 @@ resource "aws_s3_bucket" "red30-tfremotestate" {
             "Sid": "",
             "Effect": "Allow",
             "Principal": {
-                "AWS": "${data.aws_iam_user.terraform.arn}"
+                "AWS": "${data.aws_iam_user.terraform-user.arn}"
             },
             "Action": "s3:*",
             "Resource": "arn:aws:s3:::${var.bucket_name}/*"
@@ -85,7 +85,7 @@ resource "aws_dynamodb_table" "tf_db_statelock" {
 # //////////////////////////////
 resource "aws_iam_user_policy" "terraform_user_dbtable" {
   name = "terraform"
-  user = data.aws_iam_user.terraform.user_name
+  user = data.aws_iam_user.terraform-user.user_name
   policy = <<EOF
 {
     "Version": "2012-10-17",

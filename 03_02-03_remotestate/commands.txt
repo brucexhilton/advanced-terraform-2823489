@@ -1,7 +1,19 @@
 terraform init \
-    -backend-config="bucket=red30-tfstate" \
-    -backend-config="key=red30/ecommerceapp/app.state" \
-    -backend-config="region=us-east-2" \
-    -backend-config="dynamodb_table=red30-tfstatelock" \
-    -backend-config="access_key={ACCESS_KEY}" \
-    -backend-config="secret_key={SECRET_KEY}"
+terraform init -backend-config="bucket=red30-tfstates" \
+terraform init -backend-config="key=red30/ecommerceapp/app.state" \
+terraform init -backend-config="region=us-east-2" \
+terraform init -backend-config="dynamodb_table=red30-tfstatelock" \
+terraform init -backend-config="access_key=AKIA46ODCWVOUMPHSOMU" \
+terraform init -backend-config="secret_key=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"
+
+terraform {
+    backend "s3" {
+        bucket          = "red30-tfstates"
+        key             = "red30/ecommerceapp/app.state"
+        region          = "us-east-2"
+        encrypt         = true
+        dynamodb_table  = "red30-tfstatelock"
+        access_key      = "AKIA46ODCWVOUMPHSOMU"
+        secret_key      = "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"
+    }
+}

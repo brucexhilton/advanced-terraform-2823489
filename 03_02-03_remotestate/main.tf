@@ -3,6 +3,13 @@
 # //////////////////////////////
 terraform {
   backend "s3" {
+    bucket          = "red30-tfstates"
+    key             = "red30/ecommerceapp/app.state"
+    region          = "us-east-2"
+    encrypt         = true
+    dynamodb_table  = "red30-tfstatelock"
+    access_key      = "AKIA46ODCWVOUMPHSOMU"
+    secret_key      = "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"
   }
 }
 
